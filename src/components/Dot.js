@@ -1,13 +1,47 @@
-export const getSecondDot = (x, A, B, C) => {
-    let y;
-    y = -(A / B) * x - C / B;
-    return y;
-};
+class Dot {
+	constructor(x = -1, y = -1) {
+		this.x = x;
+		this.y = y;
 
-export let getPos = {
-    collapsed: false,
-    fromX: 0, fromY: 0, toX: 0, toY: 0,
-    getCenter() {
-        return [Math.round((this.fromX + this.toX) / 2), Math.round((this.fromY + this.toY) / 2)]
-    }
-};
+		this.scaleX = 0;
+		this.scaleY = 0;
+	}
+
+	static createPointFromEvent(event) {
+		return new Dot(event.nativeEvent.offsetX, event.nativeEvent.offsetY);
+	}
+
+	static isPoint(point) {
+		return point instanceof Dot;
+	}
+
+	compare(point) {
+		return point.x === this.x && point.y === this.y;
+	}
+
+	setScale(x, y) {
+		this.scaleX = x;
+		this.scaleY = y;
+	}
+
+	hasScale() {
+		return this.scaleX === 0 && this.scaleY === 0;
+	}
+
+	scale() {
+		if (this.hasScale) {
+			this.x += this.scaleX;
+			this.y += this.scaleY;
+		}
+	}
+
+	clear() {
+		this.x = -1;
+		this.y = -1;
+
+		this.scaleX = 0;
+		this.scaleY = 0;
+	}
+}
+
+export default Dot;
